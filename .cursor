@@ -1,0 +1,229 @@
+{
+  "name": "laravel-vue-task-manager",
+  "description": "A full-stack task management system built with Laravel 10, Vue 3, Inertia.js, PostgreSQL, Pinia, and Pest.",
+  "tasks": [
+    {
+      "title": "Setup Laravel Backend",
+      "description": "Install Laravel 10, configure PostgreSQL database, create initial migrations.",
+      "completed": true,
+      "files": [
+        {
+          "path": "database/migrations/2025_04_29_151947_create_tasks_table.php",
+          "description": "Migration for tasks table with fields: id, title, description, status, priority, due_date, timestamps, and soft deletes"
+        },
+        {
+          "path": "app/Models/Task.php",
+          "description": "Task model with fillable fields, casts, and soft deletes"
+        },
+        {
+          "path": "app/Http/Controllers/TaskController.php",
+          "description": "API controller with CRUD operations using Form Request validation"
+        },
+        {
+          "path": "app/Http/Requests/TaskRequest.php",
+          "description": "Form Request class for task validation rules and messages"
+        },
+        {
+          "path": "routes/api.php",
+          "description": "API routes for task endpoints"
+        },
+        {
+          "path": "database/factories/TaskFactory.php",
+          "description": "Factory for generating fake task data"
+        },
+        {
+          "path": "database/seeders/TaskSeeder.php",
+          "description": "Seeder for populating tasks table"
+        },
+        {
+          "path": "database/seeders/DatabaseSeeder.php",
+          "description": "Main seeder that includes TaskSeeder"
+        }
+      ]
+    },
+    {
+      "title": "Setup Vue 3 Frontend with Inertia.js",
+      "description": "Install Vue 3 using Vite, set up Inertia.js for routing, configure Pinia for state management.",
+      "completed": false
+    },
+    {
+      "title": "Implement Task API",
+      "description": "Develop RESTful CRUD API for tasks with proper validation, eager loading, filtering, sorting, and pagination.",
+      "completed": true,
+      "files": [
+        {
+          "path": "app/Http/Controllers/TaskController.php",
+          "description": "Implements CRUD operations using Form Request validation"
+        },
+        {
+          "path": "app/Http/Requests/TaskRequest.php",
+          "description": "Contains validation rules and messages for task operations"
+        },
+        {
+          "path": "routes/api.php",
+          "description": "Defines API endpoints for tasks"
+        }
+      ]
+    },
+    {
+      "title": "Build Task Dashboard",
+      "description": "Create a responsive Vue 3 dashboard with real-time updates using Laravel Echo and WebSockets.",
+      "completed": false
+    },
+    {
+      "title": "Write Tests",
+      "description": "Implement unit and feature tests for APIs using Pest 2.",
+      "completed": false
+    },
+    {
+      "title": "Optimize Performance",
+      "description": "Add caching, optimize queries, configure API rate limiting.",
+      "completed": false
+    },
+    {
+      "title": "Documentation",
+      "description": "Prepare README.md with setup instructions, API documentation, and architectural decisions.",
+      "completed": true,
+      "files": [
+        {
+          "path": "README.md",
+          "description": "Project documentation with setup instructions"
+        },
+        {
+          "path": "docs/architectural-decisions.md",
+          "description": "Architectural decisions and rationale"
+        },
+        {
+          "path": "docs/real-time-updates.md",
+          "description": "Real-time updates implementation details"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "LARAVEL_VERSION": "10",
+    "VUE_VERSION": "3",
+    "POSTGRES_VERSION": "15",
+    "PINIA_VERSION": "2",
+    "INERTIA_VERSION": "1.0",
+    "PEST_VERSION": "2"
+  },
+  "models": [
+    {
+      "name": "Task",
+      "path": "app/Models/Task.php",
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "values": ["pending", "in_progress", "completed"],
+          "default": "pending"
+        },
+        {
+          "name": "priority",
+          "type": "integer",
+          "default": 0
+        },
+        {
+          "name": "due_date",
+          "type": "timestamp",
+          "required": false
+        }
+      ],
+      "traits": ["HasFactory", "SoftDeletes"]
+    }
+  ],
+  "migrations": [
+    {
+      "name": "create_tasks_table",
+      "path": "database/migrations/2025_04_29_151947_create_tasks_table.php",
+      "tables": [
+        {
+          "name": "tasks",
+          "columns": [
+            {
+              "name": "id",
+              "type": "bigIncrements"
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "type": "text",
+              "nullable": true
+            },
+            {
+              "name": "status",
+              "type": "enum",
+              "values": ["pending", "in_progress", "completed"],
+              "default": "pending"
+            },
+            {
+              "name": "priority",
+              "type": "integer",
+              "default": 0
+            },
+            {
+              "name": "due_date",
+              "type": "timestamp",
+              "nullable": true
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp"
+            },
+            {
+              "name": "updated_at",
+              "type": "timestamp"
+            },
+            {
+              "name": "deleted_at",
+              "type": "timestamp",
+              "nullable": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "name": "TaskRequest",
+      "path": "app/Http/Requests/TaskRequest.php",
+      "rules": [
+        {
+          "field": "title",
+          "rules": "required|string|max:255"
+        },
+        {
+          "field": "description",
+          "rules": "nullable|string"
+        },
+        {
+          "field": "status",
+          "rules": "required|in:pending,in_progress,completed"
+        },
+        {
+          "field": "priority",
+          "rules": "required|integer|min:0|max:5"
+        },
+        {
+          "field": "due_date",
+          "rules": "nullable|date"
+        }
+      ]
+    }
+  ]
+} 
